@@ -198,12 +198,15 @@
                 <label>اسم المشروع</label>
                 <input type="text" id="pName" required placeholder="مثال: مبنى مصرفي...">
               </div>
-              <div class="form-group">
-                <label>تصنيف المشروع</label>
-                <select id="pCategory" style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:10px;">
-                  <option value="commercial">إداري وتجاري</option>
-                  <option value="infrastructure">بنية تحتية وطرق</option>
-                  <option value="residential">أبراج ومبانٍ سكنية</option>
+                            <div class="form-group">
+                <label>تصنيف / فئة المشروع</label>
+                <select id="pCategory" style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:10px; font-family:inherit; font-weight:700;">
+                  <option value="commercial">🏢 إداري وتجاري</option>
+                  <option value="tourism">🏨 سياحي وفندقي</option>
+                  <option value="infrastructure">🛣️ بنية تحتية وطرق</option>
+                  <option value="residential">🏙️ أبراج ومبانٍ سكنية</option>
+                  <option value="health">🏥 منشآت صحية ومستشفيات</option>
+                  <option value="educational">🎓 تعليمي وجامعي</option>
                 </select>
               </div>
               <div class="form-group">

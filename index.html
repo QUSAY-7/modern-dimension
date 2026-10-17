@@ -185,9 +185,45 @@
     }
     .nav-menu { display: none !important; }
     .mobile-toggle { display: none !important; }
-    body.en-lang .nav-dropdown {
+       body.en-lang .nav-dropdown {
       left: auto;
       right: 0;
+    }
+
+    /* تحسين إظهار صور المشاريع بشكل كامل وواضح */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 30px;
+    }
+    .project-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+    }
+    .project-thumb {
+      position: relative;
+      width: 100%;
+      height: 260px; /* ارتفاع واضح ومثالي للمبنى */
+      overflow: hidden;
+      background: #0B1528;
+    }
+    .project-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.5s ease;
+    }
+    .project-card:hover .project-thumb img {
+      transform: scale(1.05);
     }
   </style>
 </head>
@@ -386,11 +422,13 @@
         <h2 class="section-title">سابقة الأعمال والمشاريع الاستراتيجية</h2>
         <p class="section-subtitle">عقود معتمدة ومنجزة بأعلى معايير الإتقان والتسليم في المواعيد المحددة.</p>
       </div>
-      <div class="project-filters">
+            <div class="project-filters">
         <button class="filter-btn active" onclick="filterProjects('all')">كافة المشاريع</button>
         <button class="filter-btn" onclick="filterProjects('commercial')">إداري وتجاري</button>
-        <button class="filter-btn" onclick="filterProjects('infrastructure')">بنية تحتية وطرق</button>
+        <button class="filter-btn" onclick="filterProjects('tourism')">سياحي وفندقي</button>
         <button class="filter-btn" onclick="filterProjects('residential')">أبراج ومبانٍ سكنية</button>
+        <button class="filter-btn" onclick="filterProjects('infrastructure')">بنية تحتية وطرق</button>
+        <button class="filter-btn" onclick="filterProjects('health')">صحي ومستشفيات</button>
       </div>
       <div class="projects-grid">
         <div class="project-card" data-category="commercial">
