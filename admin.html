@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة التحكم الإدارية | البُعد الهندسي الحديث</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .admin-wrapper { display: flex; min-height: 100vh; background: #F1F5F9; }
+    .admin-sidebar { width: 280px; background: var(--primary-navy); color: #fff; padding: 25px 20px; display: flex; flex-direction: column; justify-content: space-between; shrink: 0; }
+    .admin-brand { display: flex; align-items: center; gap: 12px; padding-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .admin-nav { display: flex; flex-direction: column; gap: 8px; margin-top: 25px; }
+    .admin-nav button { width: 100%; display: flex; align-items: center; gap: 12px; background: none; border: none; color: #94A3B8; padding: 12px 16px; border-radius: 10px; cursor: pointer; font-size: 0.9rem; font-family: inherit; font-weight: 700; transition: var(--transition); text-align: right; }
+    .admin-nav button:hover, .admin-nav button.active { background: var(--accent-gold); color: var(--primary-navy); }
+    .admin-content { flex: 1; padding: 35px 40px; overflow-y: auto; }
+    .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; background: #fff; padding: 20px 25px; border-radius: 16px; border: 1px solid var(--border-color); }
+    .admin-card { background: #fff; border: 1px solid var(--border-color); border-radius: 16px; padding: 30px; margin-bottom: 25px; box-shadow: var(--shadow-sm); }
+    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+    .btn-save { background: var(--accent-gold); color: var(--primary-navy); padding: 12px 25px; border-radius: 8px; font-weight: 800; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: var(--transition); }
+    .btn-save:hover { background: #d4b472; }
+    .items-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.85rem; }
+    .items-table th, .items-table td { padding: 12px 15px; border-bottom: 1px solid var(--border-color); text-align: right; }
+    .items-table th { background: #F8FAFC; color: var(--text-dark); font-weight: 800; }
+    .btn-del { color: #EF4444; background: none; border: none; cursor: pointer; font-size: 1rem; }
+    
+    #lockScreen { position: fixed; inset: 0; background: var(--primary-navy); z-index: 9999; display: flex; align-items: center; justify-content: center; }
+    .lock-box { background: #fff; border-radius: 20px; padding: 40px; width: 100%; max-width: 420px; text-align: center; box-shadow: var(--shadow-lg); }
+
+    /* إعدادات الموقع */
+    .setting-row { display: flex; align-items: center; gap: 15px; padding: 16px; background: #F8FAFC; border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 15px; }
+    .setting-icon { width: 46px; height: 46px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .setting-icon.gold { background: rgba(197,160,89,0.15); color: var(--accent-gold); }
+    .setting-icon.navy { background: rgba(11,21,40,0.1); color: var(--primary-navy); }
+    .setting-info { flex: 1; }
+    .setting-info label { display: block; font-weight: 800; font-size: 0.88rem; color: var(--primary-navy); margin-bottom: 4px; }
+    .setting-info small { font-size: 0.75rem; color: var(--text-muted); }
+    .setting-info input[type="text"], .setting-info input[type="url"] { width: 100%; padding: 9px 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.85rem; font-family: inherit; margin-top: 6px; background: #fff; }
+    .setting-info input:focus { outline: none; border-color: var(--accent-gold); }
+
+    .bg-thumb { width: 100%; height: 120px; border-radius: 10px; object-fit: cover; margin-top: 8px; border: 2px solid var(--border-color); display: none; }
+    .upload-label { display: inline-flex; align-items: center; gap: 8px; background: var(--primary-navy); color: #fff; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 700; margin-top: 8px; transition: var(--transition); }
+    .upload-label:hover { background: var(--accent-gold); color: var(--primary-navy); }
+    .upload-label input[type="file"] { display: none; }
+    .saved-tag { display: inline-block; background: rgba(13,148,136,0.12); color: #0D9488; font-size: 0.75rem; font-weight: 700; padding: 2px 10px; border-radius: 20px; margin-right: 8px; }
+  </style>
+</head>
+<body>
+
+  <!-- شاشة تسجيل الدخول -->
+  <div id="lockScreen">
+    <div class="lock-box">
+      <div style="font-size: 3rem; color: var(--accent-gold); margin-bottom: 15px;"><i class="fa-solid fa-shield-halved"></i></div>
+      <h2 style="font-size: 1.3rem; font-weight: 900; color: var(--primary-navy); margin-bottom: 8px;">بوابة الإدارة المركزية</h2>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 25px;">أدخل كلمة المرور لإدارة بيانات ومشاريع الشركة</p>
+      <form onsubmit="handleAdminLogin(event)">
+        <input type="password" id="adminPassword" required placeholder="كلمة المرور المشفرة" style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 10px; margin-bottom: 15px; font-family: inherit; font-size: 0.9rem;" dir="ltr">
+        <button type="submit" class="btn-save" style="width: 100%; justify-content: center;">دخول لوحة التحكم <i class="fa-solid fa-lock-open"></i></button>
+      </form>
+    </div>
+  </div>
+
+  <!-- لوحة التحكم -->
+  <div class="admin-wrapper" id="adminDashboard" style="display: none;">
+    <!-- القائمة الجانبية مع الأزرار -->
+    <aside class="admin-sidebar">
+      <div>
+        <div class="admin-brand">
+          <div class="logo-emblem" style="width: 40px; height: 40px; font-size: 0.9rem;">MED</div>
+          <div>
+            <strong style="color: var(--accent-gold); display: block; font-size: 0.95rem;">البُعد الهندسي الحديث</strong>
+            <span style="font-size: 0.7rem; color: #94A3B8;">لوحة التحكم الإدارية</span>
+          </div>
+        </div>
+
+        <nav class="admin-nav">
+          <button class="active" onclick="showTab('info')"><i class="fa-solid fa-building"></i> بيانات الشركة الرسمية</button>
+          <button onclick="showTab('projects')"><i class="fa-solid fa-helmet-safety"></i> سابقة الأعمال والمشاريع</button>
+          <button onclick="showTab('fleet')"><i class="fa-solid fa-truck-monster"></i> أسطول الآليات والمعدات</button>
+                    <button onclick="showTab('messages')" style="display:flex; justify-content:space-between; align-items:center;">
+            <span><i class="fa-solid fa-inbox"></i> صندوق الرسائل</span>
+            <span id="messagesCountBadge" style="background:#EF4444; color:#fff; font-size:0.75rem; padding:2px 8px; border-radius:12px; font-weight:800; display:none;">0</span>
+          </button><button onclick="showTab('admins')"><i class="fa-solid fa-users-gear"></i> إدارة المسؤولين وكلمة المرور</button>
+        </nav>
+      </div>
+
+      <div>
+        <a href="index.html" target="_blank" style="color: #94A3B8; text-decoration: none; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; margin-bottom: 15px;"><i class="fa-solid fa-arrow-up-right-from-square"></i> معاينة واجهة الموقع</a>
+        <button onclick="handleLogout()" style="background: rgba(239,68,68,0.2); color: #F87171; border: 1px solid rgba(239,68,68,0.3); width: 100%; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 700; font-family: inherit;"><i class="fa-solid fa-arrow-right-from-bracket"></i> تسجيل الخروج</button>
+      </div>
+    </aside>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="admin-content">
+      <div class="admin-header">
+        <div>
+          <h1 id="tabTitle" style="font-size: 1.4rem; font-weight: 900; color: var(--primary-navy);">بيانات الشركة والتراخيص الرسمية (CBL)</h1>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">قم بتعديل بيانات الشركة وسيتم تحديثها تلقائياً على واجهة الموقع للزوار والمصرف.</p>
+        </div>
+      </div>
+
+      <!-- تبويب 1: بيانات الشركة الرسمية -->
+      <section id="tab-info" class="tab-pane">
+        <form onsubmit="saveCompanyInfo(event)">
+          <div class="admin-card">
+            <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; color: var(--primary-navy); border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">البيانات القانونية ومصرف ليبيا المركزي</h3>
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label>رقم السجل التجاري</label>
+                <input type="text" id="crNumber" required placeholder="2024-884920">
+              </div>
+              <div class="form-group">
+                <label>رقم قيد الغرفة التجارية</label>
+                <input type="text" id="chamberNumber" required placeholder="TC-19402">
+              </div>
+              <div class="form-group">
+                <label>الرقم الضريبي الموحد</label>
+                <input type="text" id="taxNumber" required placeholder="TX-8820410">
+              </div>
+              <div class="form-group">
+                <label>تصنيف المقاولات</label>
+                <input type="text" id="classGrade" required placeholder="الدرجة الممتازة / وزارة الإسكان">
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; color: var(--primary-navy); border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">بيانات التواصل والمقر</h3>
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label>البريد الإلكتروني الرسمي</label>
+                <input type="email" id="officialEmail" required placeholder="info@modernengineeringdimension.ly" dir="ltr">
+              </div>
+              <div class="form-group">
+                <label>رقم الهاتف المباشر</label>
+                <input type="text" id="officialPhone" required placeholder="+218 91 000 0000" dir="ltr">
+              </div>
+              <div class="form-group" style="grid-column: span 2;">
+                <label>العنوان الفعلي للمقر الرئيسي</label>
+                <input type="text" id="officialAddress" required placeholder="طرابلس، ليبيا — برج الأعمال، طريق الشط">
+              </div>
+            </div>
+            <button type="submit" class="btn-save" style="margin-top: 15px;"><i class="fa-solid fa-floppy-disk"></i> حفظ كافة البيانات</button>
+          </div>
+        </form>
+
+        <!-- بطاقة إعدادات الموقع والهوية الرقمية -->
+        <div class="admin-card">
+          <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; color: var(--primary-navy); border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+            <i class="fa-solid fa-globe" style="color: var(--accent-gold);"></i> إعدادات الموقع والهوية الرقمية
+          </h3>
+          <!-- حقل الدومين -->
+          <div class="setting-row">
+            <div class="setting-icon gold"><i class="fa-solid fa-link"></i></div>
+            <div class="setting-info">
+              <label>رابط الدومين الرسمي للموقع</label>
+              <small>يظهر هذا الرابط عند مشاركة الموقع على واتساب وتويتر والفيسبوك</small>
+              <input type="url" id="siteDomain" dir="ltr" placeholder="https://modernengineeringdimension.ly" value="">
+            </div>
+            <button type="button" class="btn-save" onclick="saveDomain()" style="flex-shrink:0;">
+              <i class="fa-solid fa-save"></i> حفظ
+            </button>
+          </div>
+          <!-- صورة الخلفية -->
+          <div class="setting-row" style="flex-direction:column; align-items:flex-start;">
+            <div style="display:flex; align-items:center; gap:12px; width:100%;">
+              <div class="setting-icon navy"><i class="fa-solid fa-image"></i></div>
+              <div class="setting-info" style="flex:1;">
+                <label>صورة خلفية الصفحة الرئيسية</label>
+                <small>ستظهر خلف عنوان الشركة في الصفحة الرئيسية</small>
+              </div>
+              <span id="bgSavedTag" class="saved-tag" style="display:none;"><i class="fa-solid fa-check"></i> محفوظة</span>
+            </div>
+            <img id="bgThumb" class="bg-thumb" alt="معاينة">
+            <label class="upload-label">
+              <input type="file" accept="image/*" onchange="uploadHeroBg(this)">
+              <i class="fa-solid fa-upload"></i> اختر صورة الخلفية
+            </label>
+            <button type="button" onclick="resetHeroBg()"
+              style="margin-top:8px; background:rgba(239,68,68,0.12); color:#EF4444; border:1px solid rgba(239,68,68,0.3); padding:8px 16px; border-radius:8px; cursor:pointer; font-weight:700; font-family:inherit; display:inline-flex; align-items:center; gap:6px;">
+              <i class="fa-solid fa-rotate-left"></i> استعادة الخلفية الافتراضية
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- تبويب 2: سابقة الأعمال والمشاريع -->
+      <section id="tab-projects" class="tab-pane" style="display: none;">
+        <div class="admin-card">
+          <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; color: var(--primary-navy);">+ إضافة مشروع جديد لسابقة الأعمال</h3>
+          <form onsubmit="handleAddProject(event)">
+            <div class="form-grid-3">
+              <div class="form-group">
+                <label>اسم المشروع</label>
+                <input type="text" id="pName" required placeholder="مثال: مبنى مصرفي...">
+              </div>
+              <div class="form-group">
+                <label>تصنيف المشروع</label>
+                <select id="pCategory" style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:10px;">
+                  <option value="commercial">إداري وتجاري</option>
+                  <option value="infrastructure">بنية تحتية وطرق</option>
+                  <option value="residential">أبراج ومبانٍ سكنية</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>حالة المشروع</label>
+                <select id="pStatus" style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:10px;">
+                  <option value="completed">منجز بالكامل 100%</option>
+                  <option value="ongoing">قيد التنفيذ</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-grid-3" style="margin-top: 15px;">
+              <div class="form-group">
+                <label>الجهة المالكة / العميل</label>
+                <input type="text" id="pClient" required placeholder="مثال: قطاع مصرفي / وزارة...">
+              </div>
+              <div class="form-group">
+                <label>قيمة العقد (د.ل)</label>
+                <input type="text" id="pValue" required placeholder="مثال: 18,500,000 د.ل">
+              </div>
+              <div class="form-group">
+                <label>الموقع والمساحة</label>
+                <input type="text" id="pMeta" required placeholder="طرابلس • 12,000 م²">
+              </div>
+            </div>
+                        <div class="form-group" style="margin-top: 15px;">
+              <label>صورة المشروع (رفع من الجهاز أو إدخال رابط)</label>
+              <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:5px;">
+                <label class="upload-label" style="margin:0; background:var(--primary-navy); color:#fff; padding:10px 18px; border-radius:8px; cursor:pointer; font-weight:700; display:inline-flex; align-items:center; gap:8px;">
+                  <i class="fa-solid fa-cloud-arrow-up"></i> اختر صورة من جهازك
+                  <input type="file" id="pFileInput" accept="image/*" onchange="handleProjectImageUpload(this)" style="display:none;">
+                </label>
+                <span style="color:var(--text-muted); font-size:0.85rem;">أو الصق الرابط:</span>
+                <input type="url" id="pImage" placeholder="https://..." dir="ltr" style="flex:1; min-width:200px; padding:10px; border:1px solid var(--border-color); border-radius:8px;">
+              </div>
+              <!-- معاينة مصغرة للصورة المختارة -->
+              <div id="pImagePreviewBox" style="display:none; margin-top:10px;">
+                <img id="pImagePreview" src="" alt="معاينة" style="width:120px; height:80px; object-fit:cover; border-radius:8px; border:2px solid var(--accent-gold);">
+                <span style="font-size:0.8rem; color:#0D9488; font-weight:bold; margin-right:8px;"><i class="fa-solid fa-check"></i> تم اختيار الصورة بنجاح</span>
+              </div>
+            </div>
+            <button type="submit" class="btn-save" style="margin-top: 15px;"><i class="fa-solid fa-plus"></i> إضافة المشروع ونشره في الموقع</button>
+          </form>
+        </div>
+
+        <div class="admin-card">
+          <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 15px; color: var(--primary-navy);">قائمة المشاريع المضافة</h3>
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th>اسم المشروع</th>
+                <th>التصنيف</th>
+                <th>الجهة المالكة</th>
+                <th>قيمة العقد</th>
+                <th>الحالة</th>
+                <th>حذف</th>
+              </tr>
+            </thead>
+            <tbody id="projectsTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- تبويب 3: أسطول الآليات والمعدات -->
+      <section id="tab-fleet" class="tab-pane" style="display: none;">
+        <div class="admin-card">
+          <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; color: var(--primary-navy);">+ إضافة آلية / معدة جديدة للأسطول</h3>
+          <form onsubmit="handleAddFleet(event)">
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label>اسم المعدة ونوعها</label>
+                <input type="text" id="fName" required placeholder="مثال: رافعات برجية متحركة (Liebherr)">
+              </div>
+              <div class="form-group">
+                <label>العدد والقدرة</label>
+                <input type="text" id="fCount" required placeholder="مثال: عدد 6 رافعات قدرة 50 طن">
+              </div>
+            </div>
+            <button type="submit" class="btn-save" style="margin-top: 15px;"><i class="fa-solid fa-plus"></i> إضافة للأسطول</button>
+          </form>
+        </div>
+
+        <div class="admin-card">
+          <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 15px; color: var(--primary-navy);">قائمة الآليات المملوكة</h3>
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th>اسم المعدة</th>
+                <th>العدد والقدرة</th>
+                <th>حذف</th>
+              </tr>
+            </thead>
+            <tbody id="fleetTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- تبويب جديد: صندوق الرسائل والاستفسارات -->
+      <section id="tab-messages" class="tab-pane" style="display: none;">
+        <div class="admin-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--primary-navy);">
+              <i class="fa-solid fa-envelope-open-text" style="color: var(--accent-gold);"></i> رسائل واستفسارات العملاء الواردة
+            </h3>
+            <button type="button" onclick="loadMessagesTable()" class="btn-save" style="padding: 8px 15px; font-size: 0.85rem;">
+              <i class="fa-solid fa-arrows-rotate"></i> تحديث الرسائل
+            </button>
+          </div>
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th>تاريخ الإرسال</th>
+                <th>اسم العميل</th>
+                <th>رقم الهاتف</th>
+                <th>البريد الإلكتروني</th>
+                <th>نص الاستفسار</th>
+                <th>تواصل</th>
+              </tr>
+            </thead>
+            <tbody id="messagesTableBody">
+              <tr><td colspan="6" style="text-align:center;">جاري جلب الرسائل من السحابة...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- تبويب 4: إدارة المسؤولين وكلمة المرور -->
+      <section id="tab-admins" class="tab-pane" style="display: none;">
+        <div class="admin-card">
+          <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; color: var(--primary-navy); border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+            <i class="fa-solid fa-key" style="color: var(--accent-gold);"></i> تغيير كلمة مرور لوحة التحكم الرئيسية
+          </h3>
+          <form onsubmit="handleChangeMasterPass(event)">
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label>كلمة المرور الجديدة</label>
+                <input type="password" id="newMasterPass" required placeholder="أدخل كلمة مرور جديدة" dir="ltr">
+              </div>
+              <div class="form-group">
+                <label>تأكيد كلمة المرور</label>
+                <input type="password" id="confirmMasterPass" required placeholder="أعد إدخال كلمة المرور" dir="ltr">
+              </div>
+            </div>
+            <button type="submit" class="btn-save" style="margin-top: 15px;"><i class="fa-solid fa-check"></i> تحديث كلمة المرور</button>
+          </form>
+        </div>
+
+        <div class="admin-card">
+          <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; color: var(--primary-navy);">
+            <i class="fa-solid fa-user-plus" style="color: var(--accent-gold);"></i> إضافة مسؤول جديد للمنظومة
+          </h3>
+          <form onsubmit="handleAddSubAdmin(event)">
+            <div class="form-grid-3">
+              <div class="form-group">
+                <label>اسم المسؤول</label>
+                <input type="text" id="admName" required placeholder="مثال: م. عمر الفيتوري">
+              </div>
+              <div class="form-group">
+                <label>البريد الإلكتروني</label>
+                <input type="email" id="admEmail" required placeholder="omar@modernengineeringdimension.ly" dir="ltr">
+              </div>
+              <div class="form-group">
+                <label>الرتبة والصلاحية</label>
+                <select id="admRole" style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:10px;">
+                  <option value="owner">👑 مالك شريك (Super Admin)</option>
+                  <option value="project_mgr">👷 مدير مشاريع ميداني</option>
+                  <option value="finance">💼 مسؤول مالي ومصرفي</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="btn-save" style="margin-top: 15px;"><i class="fa-solid fa-plus"></i> إضافة المسؤول</button>
+          </form>
+        </div>
+
+        <div class="admin-card">
+          <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 15px; color: var(--primary-navy);">قائمة مسؤولي وملاك المنصة</h3>
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th>اسم المسؤول</th>
+                <th>البريد الإلكتروني</th>
+                <th>الرتبة</th>
+                <th>الحالة</th>
+                <th>إجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="adminsTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    /* ===== الدومين ===== */
+    function saveDomain() {
+      const domain = document.getElementById('siteDomain').value.trim();
+      if (!domain) { alert('أدخل رابط الدومين أولاً'); return; }
+      localStorage.setItem('siteDomain', domain);
+      alert('✅ تم حفظ الدومين: ' + domain);
+    }
+
+    /* ===== صورة الخلفية ===== */
+    function uploadHeroBg(input) {
+      const file = input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const dataUrl = e.target.result;
+        localStorage.setItem('heroBgUrl', dataUrl);
+        const thumb = document.getElementById('bgThumb');
+        thumb.src = dataUrl;
+        thumb.style.display = 'block';
+        document.getElementById('bgSavedTag').style.display = 'inline-block';
+        alert('✅ تم حفظ صورة الخلفية! ستظهر في الصفحة الرئيسية.');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function resetHeroBg() {
+      if (!confirm('هل تريد إزالة الصورة والعودة للخلفية الافتراضية؟')) return;
+      localStorage.removeItem('heroBgUrl');
+      document.getElementById('bgThumb').style.display = 'none';
+      document.getElementById('bgSavedTag').style.display = 'none';
+      alert('✅ تمت استعادة الخلفية الافتراضية.');
+    }
+
+    /* ===== تحميل البيانات المحفوظة عند الفتح ===== */
+    window.addEventListener('load', function() {
+      const domain = localStorage.getItem('siteDomain');
+      if (domain) document.getElementById('siteDomain').value = domain;
+
+      const bg = localStorage.getItem('heroBgUrl');
+      if (bg) {
+        const thumb = document.getElementById('bgThumb');
+        thumb.src = bg;
+        thumb.style.display = 'block';
+        document.getElementById('bgSavedTag').style.display = 'inline-block';
+      }
+    });
+  </script>
+
+  <!-- مكتبة Supabase السحابية -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

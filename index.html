@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>شركة البُعد الهندسي الحديث للمقاولات والاستشارات الهندسية | Modern Engineering Dimension</title>
+  <meta name="description" content="شركة ليبية رائدة في المقاولات العامة، البنية التحتية، والتطوير العمراني، مصنفة ومعتمدة رسمياً ومطابقة لمعايير مصرف ليبيا المركزي (CBL).">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- مكتبة Supabase في الهيدر لضمان الجاهزية الفورية -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://ylmljqchckhgynysrenx.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_KeRQQdony6N8aio-FWGNWQ_NJ_V3O0w';
+    window.supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+  </script>
+
+  <style>
+    /* ===== Hero ===== */
+    .hero-section {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background-image: url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      overflow: hidden;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(6,14,35,0.88) 0%, rgba(10,22,55,0.72) 50%, rgba(6,14,35,0.85) 100%);
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 140px 0 90px;
+      width: 100%;
+    }
+    .hero-brand-block { margin-bottom: 2rem; }
+    .hero-brand-en {
+      display: block;
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 3.2rem);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      text-shadow: 0 4px 30px rgba(0,0,0,0.6);
+      line-height: 1.1;
+    }
+    .hero-brand-divider {
+      width: 90px; height: 3px;
+      background: linear-gradient(90deg, transparent, #C9A84C, transparent);
+      margin: 0.9rem auto;
+    }
+    .hero-brand-ar {
+      display: block;
+      font-family: 'Cairo', sans-serif;
+      font-size: clamp(0.85rem, 1.6vw, 1rem);
+      font-weight: 600;
+      color: #C9A84C;
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 28px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      color: rgba(255,255,255,0.4);
+      font-size: 1.2rem;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ===== زر تغيير الخلفية ===== */
+    .hero-bg-label {
+      position: absolute;
+      bottom: 20px; left: 20px;
+      z-index: 10;
+    }
+    .hero-bg-label input[type="file"] { display: none; }
+    .hero-bg-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(201,168,76,0.25);
+      border: 1px dashed #C9A84C;
+      color: #C9A84C;
+      padding: 0.55rem 1.1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-family: 'Cairo', sans-serif;
+      backdrop-filter: blur(6px);
+      transition: all 0.3s;
+    }
+    .hero-bg-btn:hover { background: rgba(201,168,76,0.45); }
+
+    /* ===== القائمة المنسدلة ===== */
+    .nav-dropdown-wrapper { position: relative; }
+
+    .nav-toggle-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #0B1528;
+      border: 2px solid #C5A059;
+      color: #fff;
+      padding: 9px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition: all 0.3s;
+      white-space: nowrap;
+    }
+    .nav-toggle-btn:hover,
+    .nav-toggle-btn.open {
+      background: #C5A059;
+      color: #0B1528;
+    }
+    .nav-toggle-btn .chevron {
+      font-size: 0.72rem;
+      transition: transform 0.3s;
+    }
+    .nav-toggle-btn.open .chevron { transform: rotate(180deg); }
+
+    .nav-dropdown {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      right: auto;
+      background: #fff;
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 8px;
+      min-width: 255px;
+      display: none;
+      z-index: 9999;
+      box-shadow: 0 20px 50px rgba(11,21,40,0.15);
+    }
+    .nav-dropdown.open {
+      display: block;
+      animation: dropFade 0.2s ease;
+    }
+    @keyframes dropFade {
+      from { opacity:0; transform: translateY(-8px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+    .nav-dropdown a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      color: #1E293B;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 700;
+      font-family: 'Cairo', sans-serif;
+      transition: all 0.2s;
+    }
+    .nav-dropdown a i { color: #C5A059; font-size: 0.85rem; }
+    .nav-dropdown a:hover {
+      background: #f5eedf;
+      color: #0B1528;
+    }
+    .nav-divider {
+      height: 1px;
+      background: #E2E8F0;
+      margin: 5px 8px;
+    }
+    .nav-menu { display: none !important; }
+    .mobile-toggle { display: none !important; }
+    body.en-lang .nav-dropdown {
+      left: auto;
+      right: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== الشريط العلوي ===== -->
+  <div class="top-bar">
+    <div class="container top-bar-content">
+      <div class="top-info">
+        <span><i class="fa-solid fa-location-dot"></i> طرابلس، ليبيا</span>
+        <span><i class="fa-solid fa-envelope"></i> info@modernengineeringdimension.ly</span>
+        <span><i class="fa-solid fa-phone"></i> +218 91 000 0000</span>
+      </div>
+      <div class="top-actions">
+        <span class="compliance-badge"><i class="fa-solid fa-shield-halved"></i> معتمدة رسمياً وممتثلة لضوابط CBL</span>
+        <button id="langToggleBtn" class="lang-btn" onclick="toggleLanguage()">
+          <i class="fa-solid fa-globe"></i> <span id="langText">English</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== الهيدر ===== -->
+  <header class="main-header">
+    <div class="container header-container">
+
+      <!-- الشعار -->
+      <a href="#home" class="brand-logo">
+        <div class="logo-emblem">
+          <span class="emblem-initials">MED</span>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name-ar" data-i18n="company_name">البُعد الهندسي الحديث</span>
+          <span class="brand-sub-ar" data-i18n="company_sub">للمقاولات العامة والاستشارات الهندسية</span>
+          <span class="brand-en">MODERN ENGINEERING DIMENSION</span>
+        </div>
+      </a>
+
+      <!-- القائمة المنسدلة -->
+      <div class="nav-dropdown-wrapper">
+        <button class="nav-toggle-btn" id="navToggleBtn" onclick="toggleNavDropdown()">
+          <i class="fa-solid fa-bars-staggered"></i>
+          <span>القائمة</span>
+          <i class="fa-solid fa-chevron-down chevron"></i>
+        </button>
+        <nav class="nav-dropdown" id="navDropdown">
+          <a href="#home" onclick="closeNav()">الرئيسية <i class="fa-solid fa-house"></i></a>
+          <a href="#about" onclick="closeNav()">من نحن والتراخيص <i class="fa-solid fa-building-columns"></i></a>
+          <a href="#services" onclick="closeNav()">مجالات العمل <i class="fa-solid fa-compass-drafting"></i></a>
+          <div class="nav-divider"></div>
+          <a href="#projects" onclick="closeNav()">سابقة الأعمال <i class="fa-solid fa-folder-open"></i></a>
+          <a href="#machinery" onclick="closeNav()">أسطول الآليات <i class="fa-solid fa-truck-monster"></i></a>
+          <div class="nav-divider"></div>
+          <a href="#compliance" onclick="closeNav()">الامتثال والحوكمة <i class="fa-solid fa-shield-halved"></i></a>
+          <a href="#contact" onclick="closeNav()">الاتصال والمقر <i class="fa-solid fa-phone-volume"></i></a>
+        </nav>
+      </div>
+
+      <!-- زر PDF -->
+      <div class="header-cta">
+        <a href="assets/company-profile.pdf" download class="btn-profile">
+          <i class="fa-solid fa-file-pdf"></i> البروفايل (PDF)
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ===== الهيرو ===== -->
+  <section id="home" class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <div class="hero-brand-block">
+        <span class="hero-brand-en">Modern Engineering Dimension</span>
+        <div class="hero-brand-divider"></div>
+        <span class="hero-brand-ar">شركة البُعد الهندسي الحديث للمقاولات والاستشارات الهندسية</span>
+      </div>
+      <div class="hero-badge">
+        <i class="fa-solid fa-certificate"></i>
+        <span data-i18n="hero_badge">شركة مقاولات ليبية مصنفة • سجل تجاري معتمد</span>
+      </div>
+      <h1 class="hero-title" data-i18n="hero_title">
+        صرح هندسي رائد يشيد مستقبل ليبيا بأعلى المعايير العالمية
+      </h1>
+      <p class="hero-desc" data-i18n="hero_desc">
+        متخصصون في تنفيذ كبرى مشاريع البنية التحتية، الأبراج السكنية، والمجمعات الإدارية والتجارية، بقدرات تنفيذية معتمدة ومطابقة لمتطلبات التدقيق المصرفي ومصرف ليبيا المركزي.
+      </p>
+      <div class="hero-buttons">
+        <a href="#projects" class="btn btn-primary" data-i18n="hero_btn_projects">
+          استكشف سابقة الأعمال <i class="fa-solid fa-arrow-left icon-flip"></i>
+        </a>
+        <a href="#compliance" class="btn btn-secondary" data-i18n="hero_btn_compliance">
+          بيانات الامتثال والشفافية <i class="fa-solid fa-building-columns"></i>
+        </a>
+      </div>
+      <div class="stats-ribbon">
+        <div class="stat-card">
+          <span class="stat-number">+25</span>
+          <span class="stat-label" data-i18n="stat_projects">مشروعاً استراتيجياً منجزاً</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">+50</span>
+          <span class="stat-label" data-i18n="stat_fleet">آلية ومعدة هندسية ثقيلة</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">100%</span>
+          <span class="stat-label" data-i18n="stat_compliance">امتثال لضوابط ومعايير CBL</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">+120,000</span>
+          <span class="stat-label" data-i18n="stat_area">م² مساحات بناء منفذة</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll"><i class="fa-solid fa-chevron-down"></i></div>
+    <label class="hero-bg-label" id="heroBgLabel">
+      <input type="file" id="heroBgInput" accept="image/*" onchange="changeHeroBg(this)">
+      <span class="hero-bg-btn"><i class="fa-solid fa-image"></i> تغيير صورة الخلفية</span>
+    </label>
+  </section>
+
+  <!-- ===== البيانات القانونية ===== -->
+  <section id="about" class="section legal-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="legal_tag">الوضع القانوني والاعتمادات الرسمية</span>
+        <h2 class="section-title" data-i18n="legal_title">إفصاحات الشركة والامتثال المؤسسي</h2>
+        <p class="section-subtitle" data-i18n="legal_sub">بيانات الشركة الموثقة رسمياً لدى وزارة الاقتصاد، الغرفة التجارية، ومصرف ليبيا المركزي.</p>
+      </div>
+      <div class="legal-grid">
+        <div class="legal-card">
+          <div class="legal-icon"><i class="fa-solid fa-stamp"></i></div>
+          <h3>السجل التجاري العام</h3>
+          <p class="legal-val">رقم: <span>2024-884920</span></p>
+          <span class="legal-status">ساري المفعول • وزارة الاقتصاد</span>
+        </div>
+        <div class="legal-card">
+          <div class="legal-icon"><i class="fa-solid fa-landmark"></i></div>
+          <h3>الغرفة التجارية</h3>
+          <p class="legal-val">عضوية رقم: <span>TC-19402</span></p>
+          <span class="legal-status">مقيدة رسمياً • غرفة تجارة طرابلس</span>
+        </div>
+        <div class="legal-card">
+          <div class="legal-icon"><i class="fa-solid fa-receipt"></i></div>
+          <h3>الرقم الضريبي الموحد</h3>
+          <p class="legal-val">ملف رقم: <span>TX-8820410</span></p>
+          <span class="legal-status">شهادة سداد وبراءة ذمة ضريبية حديثة</span>
+        </div>
+        <div class="legal-card">
+          <div class="legal-icon"><i class="fa-solid fa-medal"></i></div>
+          <h3>تصنيف المقاولات</h3>
+          <p class="legal-val"><span>الدرجة الممتازة</span></p>
+          <span class="legal-status">وزارة الإسكان ونقابة المهن الهندسية</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== مجالات العمل ===== -->
+  <section id="services" class="section services-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">مجالات الاختصاص</span>
+        <h2 class="section-title">حلول هندسية متكاملة للمشاريع الكبرى</h2>
+      </div>
+      <div class="services-grid">
+        <div class="service-box">
+          <div class="service-icon"><i class="fa-solid fa-trowel-bricks"></i></div>
+          <h3>المقاولات العامة والإنشاءات المدنية</h3>
+          <p>تنفيذ المباني السكنية، المجمعات الإدارية، والأبراج الخرسانية والمعدنية بتشطيبات VIP وتقنيات إنشائية حديثة.</p>
+        </div>
+        <div class="service-box">
+          <div class="service-icon"><i class="fa-solid fa-road"></i></div>
+          <h3>مشاريع البنية التحتية والطرق</h3>
+          <p>أعمال الرصف، مد شبكات المياه والكهرباء ومحطات تصريف مياه الأمطار والصرف الصحي بأعلى كفاءة تشغيلية.</p>
+        </div>
+        <div class="service-box">
+          <div class="service-icon"><i class="fa-solid fa-compass-drafting"></i></div>
+          <h3>الاستشارات والتصميم الهندسي الإنشائي</h3>
+          <p>إعداد المخططات الهندسية المعمارية والإنشائية والكهروميكانيكية (MEP) ونمذجة معلومات المباني (BIM).</p>
+        </div>
+        <div class="service-box">
+          <div class="service-icon"><i class="fa-solid fa-vial-circle-check"></i></div>
+          <h3>الفحص المخبري ومراقبة الجودة (QC/QA)</h3>
+          <p>مختبرات ميدانية متطورة لاختبارات التربة، فحص مقاومة الخرسانة، ومطابقة المواد للمواصفات القياسية الليبية.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== سابقة الأعمال ===== -->
+  <section id="projects" class="section projects-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">سجل الإنجازات الموثق</span>
+        <h2 class="section-title">سابقة الأعمال والمشاريع الاستراتيجية</h2>
+        <p class="section-subtitle">عقود معتمدة ومنجزة بأعلى معايير الإتقان والتسليم في المواعيد المحددة.</p>
+      </div>
+      <div class="project-filters">
+        <button class="filter-btn active" onclick="filterProjects('all')">كافة المشاريع</button>
+        <button class="filter-btn" onclick="filterProjects('commercial')">إداري وتجاري</button>
+        <button class="filter-btn" onclick="filterProjects('infrastructure')">بنية تحتية وطرق</button>
+        <button class="filter-btn" onclick="filterProjects('residential')">أبراج ومبانٍ سكنية</button>
+      </div>
+      <div class="projects-grid">
+        <div class="project-card" data-category="commercial">
+          <div class="project-thumb">
+            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80" alt="مقر مصرفي">
+            <span class="project-badge status-completed">منجز بالكامل 100%</span>
+          </div>
+          <div class="project-info">
+            <span class="project-client"><i class="fa-solid fa-briefcase"></i> قطاع مالي ومصرفي</span>
+            <h3>مبنى المقر الإداري والمصرفي النموذجي</h3>
+            <p class="project-meta">الموقع: طرابلس • المساحة: 12,500 م² • قيمة العقد: 18,400,000 د.ل</p>
+          </div>
+        </div>
+        <div class="project-card" data-category="infrastructure">
+          <div class="project-thumb">
+            <img src="https://images.unsplash.com/photo-1541888946425-d0fbb186156f?auto=format&fit=crop&w=800&q=80" alt="بنية تحتية">
+            <span class="project-badge status-completed">منجز ومسلّم</span>
+          </div>
+          <div class="project-info">
+            <span class="project-client"><i class="fa-solid fa-briefcase"></i> وزارة الإسكان والمرافق</span>
+            <h3>مشروع تطوير المحاور وشبكات البنية التحتية</h3>
+            <p class="project-meta">الموقع: السراج - طرابلس • أطوال الطرق: 8.5 كم • قيمة العقد: 14,200,000 د.ل</p>
+          </div>
+        </div>
+        <div class="project-card" data-category="residential">
+          <div class="project-thumb">
+            <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80" alt="مجمع سكني">
+            <span class="project-badge status-ongoing">قيد التنفيذ (85%)</span>
+          </div>
+          <div class="project-info">
+            <span class="project-client"><i class="fa-solid fa-briefcase"></i> محفظة استثمار عقاري</span>
+            <h3>أبراج البُعد الحديث السكنية الفاخرة</h3>
+            <p class="project-meta">الموقع: حي الأندلس • 6 أبراج سكنية • القيمة التقديرية: 32,000,000 د.ل</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== أسطول الآليات ===== -->
+  <section id="machinery" class="section fleet-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">القدرة التنفيذية والمعدات</span>
+        <h2 class="section-title">أسطول الآليات والمعدات الثقيلة المملوكة</h2>
+        <p class="section-subtitle">تمتلك الشركة أسطولاً متكاملاً من المعدات الحديثة الجاهزة للعمل الميداني الفوري.</p>
+      </div>
+      <div class="fleet-grid">
+        <div class="fleet-item">
+          <div class="fleet-icon"><i class="fa-solid fa-truck-monster"></i></div>
+          <h4>حفارات وآليات حفر ثقيلة (CAT / Komatsu)</h4>
+          <span class="fleet-count">عدد 12 آلية مملوكة</span>
+        </div>
+        <div class="fleet-item">
+          <div class="fleet-icon"><i class="fa-solid fa-truck-droplet"></i></div>
+          <h4>شاحنات ومضخات خرسانة جاهزة (Putzmeister)</h4>
+          <span class="fleet-count">عدد 8 مضخات وخلاطات</span>
+        </div>
+        <div class="fleet-item">
+          <div class="fleet-icon"><i class="fa-solid fa-tower-observation"></i></div>
+          <h4>رافعات برجية متحركة وثابتة (Tower Cranes)</h4>
+          <span class="fleet-count">عدد 4 رافعات كبرى</span>
+        </div>
+        <div class="fleet-item">
+          <div class="fleet-icon"><i class="fa-solid fa-bolt"></i></div>
+          <h4>محطات توليد ومولدات طاقة صناعية مستقلة</h4>
+          <span class="fleet-count">قدرات من 250 إلى 1000 KVA</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== الامتثال ===== -->
+  <section id="compliance" class="section compliance-section">
+    <div class="container">
+      <div class="compliance-box">
+        <div class="compliance-badge-large">
+          <i class="fa-solid fa-building-columns"></i>
+        </div>
+        <div class="compliance-text">
+          <span class="comp-label">إقرار الحوكمة والنزاهة المؤسسية</span>
+          <h2>الامتثال لمنظومة مصرف ليبيا المركزي (CBL) والمعايير المالية الدولية</h2>
+          <p>تؤكد إدارة <strong>شركة البُعد الهندسي الحديث</strong> التزامها الكامل بجميع التعليمات الصادرة عن مصرف ليبيا المركزي بشأن مكافحة غسل الأموال وتمويل الإرهاب (AML/CFT) وتطبيق معايير العناية الواجبة (KYC).</p>
+          <div class="compliance-points">
+            <span><i class="fa-solid fa-check"></i> حسابات مصرفية تجارية معتمدة لدى المصارف الليبية الرائدة</span>
+            <span><i class="fa-solid fa-check"></i> ميزانيات مدققة ومراجعة قانونياً من مكاتب محاسبة معتمدة</span>
+            <span><i class="fa-solid fa-check"></i> التزام تام بمعايير السلامة المهنية والصحة والبيئة (HSE)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== الاتصال ===== -->
+  <section id="contact" class="section contact-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">المقر والاتصال المباشر</span>
+        <h2 class="section-title">تواصل مع الإدارة العامة للشركة</h2>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-card info-card">
+          <h3>بيانات الاتصال الرسمية</h3>
+          <div class="info-item">
+            <i class="fa-solid fa-map-location-dot"></i>
+            <div><strong>العنوان:</strong><p>طرابلس، ليبيا — برج الأعمال، طريق الشط</p></div>
+          </div>
+          <div class="info-item">
+            <i class="fa-solid fa-envelope-open-text"></i>
+            <div><strong>البريد الإلكتروني:</strong><p>info@modernengineeringdimension.ly</p></div>
+          </div>
+          <div class="info-item">
+            <i class="fa-solid fa-phone-volume"></i>
+            <div><strong>الهاتف:</strong><p dir="ltr">+218 91 000 0000 / +218 21 000 0000</p></div>
+          </div>
+          <div class="info-item">
+            <i class="fa-solid fa-clock"></i>
+            <div><strong>ساعات العمل:</strong><p>الأحد - الخميس: 8:30 ص — 4:30 م</p></div>
+          </div>
+        </div>
+        <div class="contact-card form-card">
+          <h3>طلب استفسار أو مناقصة</h3>
+          <form onsubmit="handleFormSubmit(event)">
+            <div class="form-group">
+              <label>الاسم الكامل / الجهة</label>
+              <input type="text" id="contactName" required placeholder="مثال: المهندس أحمد...">
+            </div>
+            <div class="form-group">
+              <label>البريد الإلكتروني</label>
+              <input type="email" id="contactEmail" required placeholder="name@company.com">
+            </div>
+            <div class="form-group">
+              <label>رقم الهاتف</label>
+              <input type="tel" id="contactPhone" required placeholder="091xxxxxxx">
+            </div>
+            <div class="form-group">
+              <label>تفاصيل الاستفسار</label>
+              <textarea id="contactMsg" rows="4" required placeholder="أدخل تفاصيل طلبك..."></textarea>
+            </div>
+            <button type="submit" id="contactSubmitBtn" class="btn btn-primary btn-submit">
+              إرسال الرسالة <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== الفوتر ===== -->
+  <footer class="main-footer">
+    <div class="container footer-content">
+      <div class="footer-col brand-col">
+        <div class="brand-text">
+          <h3 class="footer-brand-name">البُعد الهندسي الحديث</h3>
+          <p class="footer-brand-sub">Modern Engineering Dimension Co.</p>
+        </div>
+        <p class="footer-desc">شركة ليبية رائدة في المقاولات العامة والتطوير العقاري والاستشارات الهندسية.</p>
+      </div>
+      <div class="footer-col links-col">
+        <h4>روابط سريعة</h4>
+        <ul>
+          <li><a href="#about">البيانات القانونية والتراخيص</a></li>
+          <li><a href="#projects">سابقة الأعمال والمشاريع</a></li>
+          <li><a href="#machinery">أسطول الآليات والمعدات</a></li>
+          <li><a href="#compliance">سياسة الامتثال و CBL</a></li>
+        </ul>
+      </div>
+      <div class="footer-col certs-col">
+        <h4>الاعتمادات والجودة</h4>
+        <div class="cert-badges">
+          <span class="cert-item"><i class="fa-solid fa-shield-check"></i> مطابقة لـ CBL</span>
+          <span class="cert-item"><i class="fa-solid fa-award"></i> تصنيف الدرجة الممتازة</span>
+          <span class="cert-item"><i class="fa-solid fa-helmet-safety"></i> معايير HSE الدولية</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>© 2026 شركة البُعد الهندسي الحديث للمقاولات والاستشارات الهندسية. جميع الحقوق محفوظة.</p>
+        <span class="domain-ref">modernengineeringdimension.ly</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+
+  <script>
+    /* ===== القائمة المنسدلة ===== */
+    function toggleNavDropdown() {
+      document.getElementById('navToggleBtn').classList.toggle('open');
+      document.getElementById('navDropdown').classList.toggle('open');
+    }
+    function closeNav() {
+      document.getElementById('navToggleBtn').classList.remove('open');
+      document.getElementById('navDropdown').classList.remove('open');
+    }
+    document.addEventListener('click', function(e) {
+      const w = document.querySelector('.nav-dropdown-wrapper');
+      if (w && !w.contains(e.target)) closeNav();
+    });
+
+    /* ===== خلفية الهيرو ===== */
+    const savedBg = localStorage.getItem('heroBgUrl');
+    if (savedBg) {
+      document.querySelector('.hero-section').style.backgroundImage = `url('${savedBg}')`;
+    }
+    function changeHeroBg(input) {
+      const file = input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.querySelector('.hero-section').style.backgroundImage = `url('${e.target.result}')`;
+        localStorage.setItem('heroBgUrl', e.target.result);
+        alert('✅ تم تغيير صورة الخلفية بنجاح!');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    /* ===== فلترة المشاريع ===== */
+    function filterProjects(cat) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      document.querySelectorAll('.project-card').forEach(card => {
+        card.style.display = (cat === 'all' || card.dataset.category === cat) ? 'block' : 'none';
+      });
+    }
+
+    /* ===== جلب المشاريع السحابية من Supabase ===== */
+    async function fetchLiveProjects() {
+      if (!window.supabaseClient) return;
+      const { data, error } = await window.supabaseClient.from('projects').select('*').order('id', { ascending: false });
+      if (!error && data && data.length > 0) {
+        const grid = document.querySelector('.projects-grid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        data.forEach(p => {
+          grid.innerHTML += `
+            <div class="project-card" data-category="${p.category}">
+              <div class="project-thumb">
+                <img src="${p.image || 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80'}" alt="${p.name}">
+                <span class="project-badge ${p.status === 'completed' ? 'status-completed' : 'status-ongoing'}">
+                  ${p.status === 'completed' ? 'منجز بالكامل 100%' : 'قيد التنفيذ'}
+                </span>
+              </div>
+              <div class="project-info">
+                <span class="project-client"><i class="fa-solid fa-briefcase"></i> ${p.client}</span>
+                <h3>${p.name}</h3>
+                <p class="project-meta">الموقع: ${p.meta || 'ليبيا'} • قيمة العقد: ${p.value || '-'}</p>
+              </div>
+            </div>
+          `;
+        });
+      }
+    }
+
+    /* ===== إرسال نموذج التواصل إلى Supabase مباشرة وبدقة ===== */
+    async function handleFormSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('contactSubmitBtn');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = 'جاري الإرسال... <i class="fa-solid fa-spinner fa-spin"></i>';
+      btn.disabled = true;
+
+      const msgData = {
+        name: document.getElementById('contactName').value,
+        email: document.getElementById('contactEmail').value,
+        phone: document.getElementById('contactPhone').value,
+        message: document.getElementById('contactMsg').value
+      };
+
+      try {
+        if (window.supabaseClient) {
+          const { error } = await window.supabaseClient.from('contact_messages').insert([msgData]);
+          if (error) throw error;
+        }
+        alert('✅ تم إرسال رسالتك بنجاح! سيتواصل معك فريقنا قريباً.');
+        e.target.reset();
+      } catch (err) {
+        console.error("Submission error:", err);
+        alert('حدث خطأ أثناء الإرسال السحابي: ' + (err.message || 'يرجى المحاولة لاحقاً'));
+      } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', fetchLiveProjects);
+  </script>
+</body>
+</html>
