@@ -262,31 +262,35 @@
         </div>
       </a>
 
-      <!-- القائمة المنسدلة -->
-      <div class="nav-dropdown-wrapper">
-        <button class="nav-toggle-btn" id="navToggleBtn" onclick="toggleNavDropdown()">
-          <i class="fa-solid fa-bars-staggered"></i>
-          <span>القائمة</span>
-          <i class="fa-solid fa-chevron-down chevron"></i>
-        </button>
-        <nav class="nav-dropdown" id="navDropdown">
-          <a href="#home" onclick="closeNav()">الرئيسية <i class="fa-solid fa-house"></i></a>
-          <a href="#about" onclick="closeNav()">من نحن والتراخيص <i class="fa-solid fa-building-columns"></i></a>
-          <a href="#services" onclick="closeNav()">مجالات العمل <i class="fa-solid fa-compass-drafting"></i></a>
-          <div class="nav-divider"></div>
-          <a href="#projects" onclick="closeNav()">سابقة الأعمال <i class="fa-solid fa-folder-open"></i></a>
-          <a href="#machinery" onclick="closeNav()">أسطول الآليات <i class="fa-solid fa-truck-monster"></i></a>
-          <div class="nav-divider"></div>
-          <a href="#compliance" onclick="closeNav()">الامتثال والحوكمة <i class="fa-solid fa-shield-halved"></i></a>
-          <a href="#contact" onclick="closeNav()">الاتصال والمقر <i class="fa-solid fa-phone-volume"></i></a>
-        </nav>
-      </div>
+            <!-- مجموعة الأزرار في الهيدر (القائمة + البروفايل) -->
+      <div class="header-actions-group" style="display:flex; align-items:center; gap:12px;">
+        <!-- زر القائمة المنسدلة -->
+        <div class="nav-dropdown-wrapper">
+          <button class="nav-toggle-btn" id="navToggleBtn" onclick="toggleNavDropdown()">
+            <i class="fa-solid fa-bars-staggered"></i>
+            <span>القائمة</span>
+            <i class="fa-solid fa-chevron-down chevron"></i>
+          </button>
+          <nav class="nav-dropdown" id="navDropdown">
+            <a href="#home" onclick="closeNav()">الرئيسية <i class="fa-solid fa-house"></i></a>
+            <a href="#about" onclick="closeNav()">من نحن والتراخيص <i class="fa-solid fa-building-columns"></i></a>
+            <a href="#services" onclick="closeNav()">مجالات العمل <i class="fa-solid fa-compass-drafting"></i></a>
+            <div class="nav-divider"></div>
+            <a href="#projects" onclick="closeNav()">سابقة الأعمال <i class="fa-solid fa-folder-open"></i></a>
+            <a href="#machinery" onclick="closeNav()">أسطول الآليات <i class="fa-solid fa-truck-monster"></i></a>
+            <div class="nav-divider"></div>
+            <a href="#compliance" onclick="closeNav()">الامتثال والحوكمة <i class="fa-solid fa-shield-halved"></i></a>
+            <a href="#contact" onclick="closeNav()">الاتصال والمقر <i class="fa-solid fa-phone-volume"></i></a>
+          </nav>
+        </div>
 
-      <!-- زر PDF -->
-      <div class="header-cta">
-        <a href="assets/company-profile.pdf" download class="btn-profile">
-          <i class="fa-solid fa-file-pdf"></i> البروفايل (PDF)
-        </a>
+        <!-- زر تحميل البروفايل الفوري (شغال 100%) -->
+        <div class="header-cta">
+          <button onclick="downloadOfficialProfile()" class="nav-toggle-btn" style="background:var(--accent-gold); color:var(--primary-navy); border-color:var(--accent-gold); cursor:pointer;">
+            <i class="fa-solid fa-file-pdf"></i>
+            <span>البروفايل (PDF)</span>
+          </button>
+        </div>
       </div>
 
     </div>
@@ -319,30 +323,51 @@
           بيانات الامتثال والشفافية <i class="fa-solid fa-building-columns"></i>
         </a>
       </div>
-      <div class="stats-ribbon">
+            <div class="stats-ribbon">
         <div class="stat-card">
-          <span class="stat-number">+25</span>
-          <span class="stat-label" data-i18n="stat_projects">مشروعاً استراتيجياً منجزاً</span>
+          <span class="stat-number" id="liveStatProjects">1</span>
+          <span class="stat-label" data-i18n="stat_projects">مشاريع استراتيجية معتمدة</span>
         </div>
         <div class="stat-card">
-          <span class="stat-number">+50</span>
-          <span class="stat-label" data-i18n="stat_fleet">آلية ومعدة هندسية ثقيلة</span>
+          <span class="stat-number" id="liveStatFleet">12+</span>
+          <span class="stat-label"      <div class="stats-ribbon">
+        <div class="stat-card">
+          <span class="stat-number" id="liveStatProjects">1</span>
+          <span class="stat-label" data-i18n="stat_projects">مشاريع استراتيجية معتمدة</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="liveStatFleet">12+</span>
+          <span class="stat-label" data-i18n="stat_fleet">آلية ومعدة هندسية بالأسطول</span>
         </div>
         <div class="stat-card">
           <span class="stat-number">100%</span>
           <span class="stat-label" data-i18n="stat_compliance">امتثال لضوابط ومعايير CBL</span>
         </div>
         <div class="stat-card">
-          <span class="stat-number">+120,000</span>
-          <span class="stat-label" data-i18n="stat_area">م² مساحات بناء منفذة</span>
+          <span class="stat-number" id="liveStatArea">14,000 م²</span>
+          <span class="stat-label" data-i18n="stat_area">مساحات مشاريع منفذة</span>
+        </div>
+      </div> data-i18n="stat_fleet">آلية ومعدة هندسية بالأسطول</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">100%</span>
+          <span class="stat-label" data-i18n="stat_compliance">امتثال لضوابط ومعايير CBL</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="liveStatArea">14,000 م²</span>
+          <span class="stat-label" data-i18n="stat_area">مساحات مشاريع منفذة</span>
         </div>
       </div>
     </div>
     <div class="hero-scroll"><i class="fa-solid fa-chevron-down"></i></div>
-    <label class="hero-bg-label" id="heroBgLabel">
-      <input type="file" id="heroBgInput" accept="image/*" onchange="changeHeroBg(this)">
-      <span class="hero-bg-btn"><i class="fa-solid fa-image"></i> تغيير صورة الخلفية</span>
-    </label>
+            <div class="stat-card">
+          <span class="stat-number" id="liveStatArea">14,000 م²</span>
+          <span class="stat-label" data-i18n="stat_area">مساحات مشاريع منفذة</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll"><i class="fa-solid fa-chevron-down"></i></div>
+  </section>
   </section>
 
   <!-- ===== البيانات القانونية ===== -->
@@ -719,3 +744,97 @@
   </script>
 </body>
 </html>
+    // 1. حساب وتحديث الإحصائيات الدقيقة سحابياً
+    async function updateLiveStats() {
+      if (!window.supabaseClient) return;
+
+      // حساب عدد المشاريع الحقيقي
+      const { data: pData } = await window.supabaseClient.from('projects').select('meta');
+      if (pData && pData.length > 0) {
+        document.getElementById('liveStatProjects').textContent = pData.length;
+        
+        // حساب المساحات من نصوص المشاريع
+        let totalArea = 0;
+        pData.forEach(p => {
+          if (p.meta) {
+            const match = p.meta.match(/(\d+[\d,]*)/);
+            if (match) totalArea += parseInt(match[0].replace(/,/g, ''));
+          }
+        });
+        if (totalArea > 0) {
+          document.getElementById('liveStatArea').textContent = totalArea.toLocaleString() + ' م²';
+        }
+      }
+
+      // حساب عدد المعدات الحقيقي
+      const { data: fData } = await window.supabaseClient.from('fleet').select('id');
+      if (fData && fData.length > 0) {
+        document.getElementById('liveStatFleet').textContent = fData.length + ' فئات';
+      }
+    }
+
+    // 2. دالة تحميل وطباعة بروفايل الشركة الرسمي PDF شغال 100%
+    function downloadOfficialProfile() {
+      const printWindow = window.open('', '_blank');
+      const html = `
+        <!DOCTYPE html>
+        <html lang="ar" dir="rtl">
+        <head>
+          <title>الملف التعريفي الرسمي | شركة البُعد الهندسي الحديث</title>
+          <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+          <style>
+            body { font-family: 'Cairo', sans-serif; padding: 40px; color: #0B1528; line-height: 1.6; }
+            .header { text-align: center; border-bottom: 3px solid #C5A059; padding-bottom: 20px; margin-bottom: 30px; }
+            .title { font-size: 24px; font-weight: 900; color: #0B1528; margin: 0; }
+            .subtitle { font-size: 14px; color: #C5A059; font-weight: 700; margin-top: 5px; }
+            .card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+            .card h3 { margin-top: 0; color: #0B1528; border-bottom: 1px solid #cbd5e1; padding-bottom: 8px; }
+            .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 14px; }
+            .footer { text-align: center; font-size: 12px; color: #64748b; margin-top: 40px; border-top: 1px solid #e2e8f0; padding-top: 15px; }
+            @media print { .no-print { display: none; } }
+          </style>
+        </head>
+        <body>
+          <div class="no-print" style="text-align:center; margin-bottom:20px;">
+            <button onclick="window.print()" style="background:#C5A059; color:#0B1528; font-weight:bold; padding:12px 25px; border:none; border-radius:8px; cursor:pointer; font-family:inherit; font-size:16px;">
+              🖨️ طباعة أو حفظ كملف PDF
+            </button>
+          </div>
+          <div class="header">
+            <h1 class="title">شركة البُعد الهندسي الحديث للمقاولات والاستشارات الهندسية</h1>
+            <div class="subtitle">MODERN ENGINEERING DIMENSION — COMPANY PROFILE</div>
+            <p style="font-size:12px; color:#64748b; margin-top:5px;">معتمدة رسمياً وممتثلة لمعايير مصرف ليبيا المركزي (CBL) • الدرجة الممتازة</p>
+          </div>
+          <div class="card">
+            <h3>البيانات القانونية والتراخيص الرسمية</h3>
+            <div class="grid">
+              <div><strong>رقم السجل التجاري:</strong> 2024-884920 (وزارة الاقتصاد)</div>
+              <div><strong>قيد الغرفة التجارية:</strong> TC-19402 (غرفة طرابلس)</div>
+              <div><strong>الرقم الضريبي الموحد:</strong> TX-8820410</div>
+              <div><strong>تصنيف المقاولات:</strong> الدرجة الممتازة / وزارة الإسكان</div>
+            </div>
+          </div>
+          <div class="card">
+            <h3>بيانات التواصل والمقر الرئيسي</h3>
+            <div class="grid">
+              <div><strong>المقر:</strong> طرابلس، ليبيا — برج الأعمال، طريق الشط</div>
+              <div><strong>الهاتف:</strong> +218 91 000 0000</div>
+              <div><strong>البريد الرسمي:</strong> info@modernengineeringdimension.ly</div>
+              <div><strong>الموقع الرسمي:</strong> https://modernengineeringdimension.ly</div>
+            </div>
+          </div>
+          <div class="footer">
+            وثيقة رسمية صادرة إلكترونياً من منظومة البُعد الهندسي الحديث © 2026
+          </div>
+        </body>
+        </html>
+      `;
+      printWindow.document.write(html);
+      printWindow.document.close();
+    }
+
+    // استدعاء تحديث الإحصائيات مع تحميل الصفحة
+    window.addEventListener('DOMContentLoaded', () => {
+      fetchLiveProjects();
+      updateLiveStats();
+    });
