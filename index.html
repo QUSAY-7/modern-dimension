@@ -21,16 +21,15 @@
   </script>
 
   <style>
-    /* ===== Hero ===== */
+    /* ===== Hero المقاس المتناسق مع الشاشة ===== */
     .hero-section {
       position: relative;
-      min-height: 100vh;
+      min-height: 80vh;
       display: flex;
       align-items: center;
       background-image: url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1920&q=80');
       background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
+      background-position: center top;
       overflow: hidden;
     }
     .hero-overlay {
@@ -43,70 +42,46 @@
       position: relative;
       z-index: 2;
       text-align: center;
-      padding: 140px 0 90px;
+      padding: 60px 0 30px;
       width: 100%;
     }
-    .hero-brand-block { margin-bottom: 2rem; }
+    .hero-brand-block { margin-bottom: 1.5rem; }
     .hero-brand-en {
       display: block;
       font-family: 'Outfit', sans-serif;
-      font-size: clamp(1.8rem, 4vw, 3.2rem);
+      font-size: clamp(1.6rem, 3.5vw, 2.8rem);
       font-weight: 800;
       color: #fff;
-      letter-spacing: 5px;
+      letter-spacing: 4px;
       text-transform: uppercase;
       text-shadow: 0 4px 30px rgba(0,0,0,0.6);
       line-height: 1.1;
     }
     .hero-brand-divider {
-      width: 90px; height: 3px;
+      width: 80px; height: 3px;
       background: linear-gradient(90deg, transparent, #C9A84C, transparent);
-      margin: 0.9rem auto;
+      margin: 0.8rem auto;
     }
     .hero-brand-ar {
       display: block;
       font-family: 'Cairo', sans-serif;
-      font-size: clamp(0.85rem, 1.6vw, 1rem);
+      font-size: clamp(0.85rem, 1.5vw, 1rem);
       font-weight: 600;
       color: #C9A84C;
     }
     .hero-scroll {
       position: absolute;
-      bottom: 28px; left: 50%;
+      bottom: 15px; left: 50%;
       transform: translateX(-50%);
       z-index: 2;
       color: rgba(255,255,255,0.4);
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       animation: bounce 2s infinite;
     }
     @keyframes bounce {
       0%,100% { transform: translateX(-50%) translateY(0); }
-      50%      { transform: translateX(-50%) translateY(8px); }
+      50%      { transform: translateX(-50%) translateY(6px); }
     }
-
-    /* ===== زر تغيير الخلفية ===== */
-    .hero-bg-label {
-      position: absolute;
-      bottom: 20px; left: 20px;
-      z-index: 10;
-    }
-    .hero-bg-label input[type="file"] { display: none; }
-    .hero-bg-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(201,168,76,0.25);
-      border: 1px dashed #C9A84C;
-      color: #C9A84C;
-      padding: 0.55rem 1.1rem;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 0.82rem;
-      font-family: 'Cairo', sans-serif;
-      backdrop-filter: blur(6px);
-      transition: all 0.3s;
-    }
-    .hero-bg-btn:hover { background: rgba(201,168,76,0.45); }
 
     /* ===== القائمة المنسدلة ===== */
     .nav-dropdown-wrapper { position: relative; }
@@ -118,11 +93,11 @@
       background: #0B1528;
       border: 2px solid #C5A059;
       color: #fff;
-      padding: 9px 18px;
+      padding: 8px 16px;
       border-radius: 10px;
       cursor: pointer;
       font-family: 'Cairo', sans-serif;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 700;
       transition: all 0.3s;
       white-space: nowrap;
@@ -185,18 +160,59 @@
     }
     .nav-menu { display: none !important; }
     .mobile-toggle { display: none !important; }
-       body.en-lang .nav-dropdown {
+    body.en-lang .nav-dropdown {
       left: auto;
       right: 0;
     }
 
-    /* تحسين إظهار صور المشاريع بشكل كامل وواضح */
+    /* ===== شريط الإحصائيات في صف واحد أفقي ===== */
+    .stats-ribbon {
+      display: flex !important;
+      flex-direction: row !important;
+      justify-content: center !important;
+      align-items: center !important;
+      gap: 15px !important;
+      background: rgba(11, 21, 40, 0.75);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(197, 160, 89, 0.3);
+      border-radius: 16px;
+      padding: 14px 25px;
+      max-width: 900px;
+      margin: 25px auto 0;
+    }
+    .stat-card {
+      flex: 1;
+      text-align: center;
+      border-left: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 0 10px;
+    }
+    .stat-card:last-child {
+      border-left: none;
+    }
+    .stat-number {
+      display: block;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #C5A059;
+      line-height: 1.2;
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      color: #E2E8F0;
+      margin-top: 4px;
+      display: block;
+    }
+
+    /* ===== كروت المشاريع كصف أفقي متجاور ===== */
     .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-      gap: 30px;
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: wrap !important;
+      justify-content: center !important;
+      gap: 25px !important;
     }
     .project-card {
+      width: 360px !important;
       background: #fff;
       border-radius: 16px;
       overflow: hidden;
@@ -205,13 +221,13 @@
       transition: transform 0.3s, box-shadow 0.3s;
     }
     .project-card:hover {
-      transform: translateY(-6px);
+      transform: translateY(-5px);
       box-shadow: var(--shadow-lg);
     }
     .project-thumb {
       position: relative;
       width: 100%;
-      height: 260px; /* ارتفاع واضح ومثالي للمبنى */
+      height: 220px;
       overflow: hidden;
       background: #0B1528;
     }
@@ -220,7 +236,7 @@
       height: 100%;
       object-fit: cover;
       object-position: center;
-      transition: transform 0.5s ease;
+      transition: transform 0.4s ease;
     }
     .project-card:hover .project-thumb img {
       transform: scale(1.05);
@@ -262,7 +278,7 @@
         </div>
       </a>
 
-            <!-- مجموعة الأزرار في الهيدر (القائمة + البروفايل) -->
+      <!-- مجموعة الأزرار في الهيدر (القائمة + البروفايل) -->
       <div class="header-actions-group" style="display:flex; align-items:center; gap:12px;">
         <!-- زر القائمة المنسدلة -->
         <div class="nav-dropdown-wrapper">
@@ -286,7 +302,7 @@
 
         <!-- زر تحميل البروفايل الفوري (شغال 100%) -->
         <div class="header-cta">
-          <button onclick="downloadOfficialProfile()" class="nav-toggle-btn" style="background:var(--accent-gold); color:var(--primary-navy); border-color:var(--accent-gold); cursor:pointer;">
+          <button onclick="downloadOfficialProfile()" class="nav-toggle-btn" style="background:var(--accent-gold); color:var(--primary-navy); border-color:var(--accent-gold); cursor:pointer; font-weight:800;">
             <i class="fa-solid fa-file-pdf"></i>
             <span>البروفايل (PDF)</span>
           </button>
@@ -307,76 +323,53 @@
       </div>
       <div class="hero-badge">
         <i class="fa-solid fa-certificate"></i>
-        <span data-i18n="hero_badge">شركة مقاولات ليبية مصنفة • سجل تجاري معتمد</span>
+        <span>شركة مقاولات ليبية مصنفة • سجل تجاري معتمد</span>
       </div>
-      <h1 class="hero-title" data-i18n="hero_title">
+      <h1 class="hero-title">
         صرح هندسي رائد يشيد مستقبل ليبيا بأعلى المعايير العالمية
       </h1>
-      <p class="hero-desc" data-i18n="hero_desc">
+      <p class="hero-desc">
         متخصصون في تنفيذ كبرى مشاريع البنية التحتية، الأبراج السكنية، والمجمعات الإدارية والتجارية، بقدرات تنفيذية معتمدة ومطابقة لمتطلبات التدقيق المصرفي ومصرف ليبيا المركزي.
       </p>
       <div class="hero-buttons">
-        <a href="#projects" class="btn btn-primary" data-i18n="hero_btn_projects">
+        <a href="#projects" class="btn btn-primary">
           استكشف سابقة الأعمال <i class="fa-solid fa-arrow-left icon-flip"></i>
         </a>
-        <a href="#compliance" class="btn btn-secondary" data-i18n="hero_btn_compliance">
+        <a href="#compliance" class="btn btn-secondary">
           بيانات الامتثال والشفافية <i class="fa-solid fa-building-columns"></i>
         </a>
       </div>
-            <div class="stats-ribbon">
+
+      <!-- شريط الإحصائيات في صف واحد أفقي -->
+      <div class="stats-ribbon">
         <div class="stat-card">
           <span class="stat-number" id="liveStatProjects">1</span>
-          <span class="stat-label" data-i18n="stat_projects">مشاريع استراتيجية معتمدة</span>
+          <span class="stat-label">مشاريع استراتيجية معتمدة</span>
         </div>
         <div class="stat-card">
-          <span class="stat-number" id="liveStatFleet">12+</span>
-          <span class="stat-label"      <div class="stats-ribbon">
-        <div class="stat-card">
-          <span class="stat-number" id="liveStatProjects">1</span>
-          <span class="stat-label" data-i18n="stat_projects">مشاريع استراتيجية معتمدة</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-number" id="liveStatFleet">12+</span>
-          <span class="stat-label" data-i18n="stat_fleet">آلية ومعدة هندسية بالأسطول</span>
+          <span class="stat-number" id="liveStatFleet">8+</span>
+          <span class="stat-label">آلية ومعدة هندسية بالأسطول</span>
         </div>
         <div class="stat-card">
           <span class="stat-number">100%</span>
-          <span class="stat-label" data-i18n="stat_compliance">امتثال لضوابط ومعايير CBL</span>
+          <span class="stat-label">امتثال لضوابط CBL</span>
         </div>
         <div class="stat-card">
           <span class="stat-number" id="liveStatArea">14,000 م²</span>
-          <span class="stat-label" data-i18n="stat_area">مساحات مشاريع منفذة</span>
-        </div>
-      </div> data-i18n="stat_fleet">آلية ومعدة هندسية بالأسطول</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-number">100%</span>
-          <span class="stat-label" data-i18n="stat_compliance">امتثال لضوابط ومعايير CBL</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-number" id="liveStatArea">14,000 م²</span>
-          <span class="stat-label" data-i18n="stat_area">مساحات مشاريع منفذة</span>
+          <span class="stat-label">مساحات مشاريع منفذة</span>
         </div>
       </div>
     </div>
     <div class="hero-scroll"><i class="fa-solid fa-chevron-down"></i></div>
-            <div class="stat-card">
-          <span class="stat-number" id="liveStatArea">14,000 م²</span>
-          <span class="stat-label" data-i18n="stat_area">مساحات مشاريع منفذة</span>
-        </div>
-      </div>
-    </div>
-    <div class="hero-scroll"><i class="fa-solid fa-chevron-down"></i></div>
-  </section>
   </section>
 
   <!-- ===== البيانات القانونية ===== -->
   <section id="about" class="section legal-section">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag" data-i18n="legal_tag">الوضع القانوني والاعتمادات الرسمية</span>
-        <h2 class="section-title" data-i18n="legal_title">إفصاحات الشركة والامتثال المؤسسي</h2>
-        <p class="section-subtitle" data-i18n="legal_sub">بيانات الشركة الموثقة رسمياً لدى وزارة الاقتصاد، الغرفة التجارية، ومصرف ليبيا المركزي.</p>
+        <span class="section-tag">الوضع القانوني والاعتمادات الرسمية</span>
+        <h2 class="section-title">إفصاحات الشركة والامتثال المؤسسي</h2>
+        <p class="section-subtitle">بيانات الشركة الموثقة رسمياً لدى وزارة الاقتصاد، الغرفة التجارية، ومصرف ليبيا المركزي.</p>
       </div>
       <div class="legal-grid">
         <div class="legal-card">
@@ -447,7 +440,7 @@
         <h2 class="section-title">سابقة الأعمال والمشاريع الاستراتيجية</h2>
         <p class="section-subtitle">عقود معتمدة ومنجزة بأعلى معايير الإتقان والتسليم في المواعيد المحددة.</p>
       </div>
-            <div class="project-filters">
+      <div class="project-filters">
         <button class="filter-btn active" onclick="filterProjects('all')">كافة المشاريع</button>
         <button class="filter-btn" onclick="filterProjects('commercial')">إداري وتجاري</button>
         <button class="filter-btn" onclick="filterProjects('tourism')">سياحي وفندقي</button>
@@ -456,39 +449,7 @@
         <button class="filter-btn" onclick="filterProjects('health')">صحي ومستشفيات</button>
       </div>
       <div class="projects-grid">
-        <div class="project-card" data-category="commercial">
-          <div class="project-thumb">
-            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80" alt="مقر مصرفي">
-            <span class="project-badge status-completed">منجز بالكامل 100%</span>
-          </div>
-          <div class="project-info">
-            <span class="project-client"><i class="fa-solid fa-briefcase"></i> قطاع مالي ومصرفي</span>
-            <h3>مبنى المقر الإداري والمصرفي النموذجي</h3>
-            <p class="project-meta">الموقع: طرابلس • المساحة: 12,500 م² • قيمة العقد: 18,400,000 د.ل</p>
-          </div>
-        </div>
-        <div class="project-card" data-category="infrastructure">
-          <div class="project-thumb">
-            <img src="https://images.unsplash.com/photo-1541888946425-d0fbb186156f?auto=format&fit=crop&w=800&q=80" alt="بنية تحتية">
-            <span class="project-badge status-completed">منجز ومسلّم</span>
-          </div>
-          <div class="project-info">
-            <span class="project-client"><i class="fa-solid fa-briefcase"></i> وزارة الإسكان والمرافق</span>
-            <h3>مشروع تطوير المحاور وشبكات البنية التحتية</h3>
-            <p class="project-meta">الموقع: السراج - طرابلس • أطوال الطرق: 8.5 كم • قيمة العقد: 14,200,000 د.ل</p>
-          </div>
-        </div>
-        <div class="project-card" data-category="residential">
-          <div class="project-thumb">
-            <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80" alt="مجمع سكني">
-            <span class="project-badge status-ongoing">قيد التنفيذ (85%)</span>
-          </div>
-          <div class="project-info">
-            <span class="project-client"><i class="fa-solid fa-briefcase"></i> محفظة استثمار عقاري</span>
-            <h3>أبراج البُعد الحديث السكنية الفاخرة</h3>
-            <p class="project-meta">الموقع: حي الأندلس • 6 أبراج سكنية • القيمة التقديرية: 32,000,000 د.ل</p>
-          </div>
-        </div>
+        <!-- يتم جلب كروت المشاريع تلقائياً من Supabase السحابية في صف أفقي -->
       </div>
     </div>
   </section>
@@ -505,22 +466,22 @@
         <div class="fleet-item">
           <div class="fleet-icon"><i class="fa-solid fa-truck-monster"></i></div>
           <h4>حفارات وآليات حفر ثقيلة (CAT / Komatsu)</h4>
-          <span class="fleet-count">عدد 12 آلية مملوكة</span>
+          <span class="fleet-count">عدد 8 حفارات معتمدة</span>
         </div>
         <div class="fleet-item">
           <div class="fleet-icon"><i class="fa-solid fa-truck-droplet"></i></div>
           <h4>شاحنات ومضخات خرسانة جاهزة (Putzmeister)</h4>
-          <span class="fleet-count">عدد 8 مضخات وخلاطات</span>
+          <span class="fleet-count">عدد 4 مضخات و 12 شاحنة</span>
         </div>
         <div class="fleet-item">
           <div class="fleet-icon"><i class="fa-solid fa-tower-observation"></i></div>
           <h4>رافعات برجية متحركة وثابتة (Tower Cranes)</h4>
-          <span class="fleet-count">عدد 4 رافعات كبرى</span>
+          <span class="fleet-count">عدد 4 رافعات كبرى 50 طن</span>
         </div>
         <div class="fleet-item">
           <div class="fleet-icon"><i class="fa-solid fa-bolt"></i></div>
           <h4>محطات توليد ومولدات طاقة صناعية مستقلة</h4>
-          <span class="fleet-count">قدرات من 250 إلى 1000 KVA</span>
+          <span class="fleet-count">قدرات من 500 إلى 1250 KVA</span>
         </div>
       </div>
     </div>
@@ -655,21 +616,10 @@
       if (w && !w.contains(e.target)) closeNav();
     });
 
-    /* ===== خلفية الهيرو ===== */
+    /* ===== خلفية الهيرو المحفوظة ===== */
     const savedBg = localStorage.getItem('heroBgUrl');
     if (savedBg) {
       document.querySelector('.hero-section').style.backgroundImage = `url('${savedBg}')`;
-    }
-    function changeHeroBg(input) {
-      const file = input.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        document.querySelector('.hero-section').style.backgroundImage = `url('${e.target.result}')`;
-        localStorage.setItem('heroBgUrl', e.target.result);
-        alert('✅ تم تغيير صورة الخلفية بنجاح!');
-      };
-      reader.readAsDataURL(file);
     }
 
     /* ===== فلترة المشاريع ===== */
@@ -681,7 +631,7 @@
       });
     }
 
-    /* ===== جلب المشاريع السحابية من Supabase ===== */
+    /* ===== جلب المشاريع السحابية من Supabase في صف أفقي ===== */
     async function fetchLiveProjects() {
       if (!window.supabaseClient) return;
       const { data, error } = await window.supabaseClient.from('projects').select('*').order('id', { ascending: false });
@@ -698,10 +648,10 @@
                   ${p.status === 'completed' ? 'منجز بالكامل 100%' : 'قيد التنفيذ'}
                 </span>
               </div>
-              <div class="project-info">
-                <span class="project-client"><i class="fa-solid fa-briefcase"></i> ${p.client}</span>
-                <h3>${p.name}</h3>
-                <p class="project-meta">الموقع: ${p.meta || 'ليبيا'} • قيمة العقد: ${p.value || '-'}</p>
+              <div class="project-info" style="padding: 18px;">
+                <span class="project-client" style="color:var(--accent-gold); font-size:0.8rem; font-weight:700;"><i class="fa-solid fa-briefcase"></i> ${p.client}</span>
+                <h3 style="margin: 6px 0; font-size: 1.15rem; color:var(--primary-navy);">${p.name}</h3>
+                <p class="project-meta" style="color:var(--text-muted); font-size:0.8rem;">الموقع: ${p.meta || 'ليبيا'} • قيمة العقد: ${p.value || '-'}</p>
               </div>
             </div>
           `;
@@ -709,7 +659,7 @@
       }
     }
 
-    /* ===== إرسال نموذج التواصل إلى Supabase مباشرة وبدقة ===== */
+    /* ===== إرسال نموذج التواصل إلى Supabase السحابي ===== */
     async function handleFormSubmit(e) {
       e.preventDefault();
       const btn = document.getElementById('contactSubmitBtn');
@@ -740,20 +690,14 @@
       }
     }
 
-    window.addEventListener('DOMContentLoaded', fetchLiveProjects);
-  </script>
-</body>
-</html>
-    // 1. حساب وتحديث الإحصائيات الدقيقة سحابياً
+    /* ===== 1. حساب وتحديث الإحصائيات الدقيقة سحابياً ===== */
     async function updateLiveStats() {
       if (!window.supabaseClient) return;
 
-      // حساب عدد المشاريع الحقيقي
       const { data: pData } = await window.supabaseClient.from('projects').select('meta');
       if (pData && pData.length > 0) {
         document.getElementById('liveStatProjects').textContent = pData.length;
         
-        // حساب المساحات من نصوص المشاريع
         let totalArea = 0;
         pData.forEach(p => {
           if (p.meta) {
@@ -766,14 +710,13 @@
         }
       }
 
-      // حساب عدد المعدات الحقيقي
       const { data: fData } = await window.supabaseClient.from('fleet').select('id');
       if (fData && fData.length > 0) {
         document.getElementById('liveStatFleet').textContent = fData.length + ' فئات';
       }
     }
 
-    // 2. دالة تحميل وطباعة بروفايل الشركة الرسمي PDF شغال 100%
+    /* ===== 2. دالة تحميل وطباعة بروفايل الشركة الرسمي PDF شغال 100% ===== */
     function downloadOfficialProfile() {
       const printWindow = window.open('', '_blank');
       const html = `
@@ -833,8 +776,11 @@
       printWindow.document.close();
     }
 
-    // استدعاء تحديث الإحصائيات مع تحميل الصفحة
+    // استدعاء التحميل السحابي عند فتح الصفحة
     window.addEventListener('DOMContentLoaded', () => {
       fetchLiveProjects();
       updateLiveStats();
     });
+  </script>
+</body>
+</html>
